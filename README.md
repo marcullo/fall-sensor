@@ -44,4 +44,3 @@ accidents.
 - set of configuration commands
 - data packets
 
-## Releases
