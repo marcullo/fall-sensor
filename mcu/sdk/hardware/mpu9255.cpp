@@ -19,8 +19,8 @@ static inline void i2c_read_regs(uint8_t first_reg, uint8_t regs_nr, uint8_t* da
         return;
         
     char start_reg = first_reg;
-    char* rx_data = (char*)data;
-        
+    char* rx_data = (char*)data; 
+    
     if(imu_i2c.write(ACC_GYRO_ADDRESS_7B_WRITE, &start_reg, sizeof(start_reg)))
         process_error();
         
@@ -58,6 +58,8 @@ static inline void i2c_write_reg(uint8_t reg, uint8_t val)
 
 void mpu9255_init()
 {
+    imu_i2c.frequency(400000);
+    
     if (!mpu9255_is_connected()) {
         process_error();
     }
@@ -66,6 +68,7 @@ void mpu9255_init()
             {PWR_MGMT_1, PWR_MGMT_1_RST},
             {GYRO_CONFIG, GYRO_CONFIG_FULL_SCALE_2000DPS | GYRO_CONFIG_FCHOICE_B_1},
             {ACCEL_CONFIG, ACCEL_CONFIG_FULL_SCALE_2G},
+            {ACCEL_CONFIG2, ACCEL_CONFIG2_FCHOICE_B_1}
     };
     
     for (uint32_t i = 0; i < sizeof(init_table) / sizeof(init_table[0]); i++) {
