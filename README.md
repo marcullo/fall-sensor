@@ -1,8 +1,11 @@
 # Fall Sensor
-Detect human fall and perform emergency procedure.
+Fall detection system based on incremental development model.
 
-> This content is the appendix of Engineering Thesis written for AGH University of Science and Technology in the academic year 2017/18.
+> This is the appendix of an Engineering Thesis written for AGH University of Science and Technology in the academic year 2017/18.
 Author: Lukasz Marcul.
+
+## Latest Release
+[Timer-synchronized acquisition on battery](https://github.com/Marcullo/fall-sensor/releases/tag/v0.1)
 
 ## Purpose
 
