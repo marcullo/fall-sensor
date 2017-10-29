@@ -5,7 +5,7 @@ Fall detection system based on incremental development model.
 Author: Lukasz Marcul.
 
 ## Latest Release
-[Timer-synchronized acquisition on battery](https://github.com/Marcullo/fall-sensor/releases/tag/v0.1)
+[Circularly-buffered acquisition](https://github.com/Marcullo/fall-sensor/releases/tag/v0.2)
 
 ## Purpose
 
