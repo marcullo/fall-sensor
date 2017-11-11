@@ -80,6 +80,14 @@
 
 #define ACCEL_CONFIG2_FCHOICE_B_0       (uint8_t)0x00
 #define ACCEL_CONFIG2_FCHOICE_B_1       (uint8_t)0x08
+#define ACCEL_CONFIG2_A_DLPFCFG_0       (uint8_t)0x00
+#define ACCEL_CONFIG2_A_DLPFCFG_1       (uint8_t)0x01
+#define ACCEL_CONFIG2_A_DLPFCFG_2       (uint8_t)0x02
+#define ACCEL_CONFIG2_A_DLPFCFG_3       (uint8_t)0x03
+#define ACCEL_CONFIG2_A_DLPFCFG_4       (uint8_t)0x04
+#define ACCEL_CONFIG2_A_DLPFCFG_5       (uint8_t)0x05
+#define ACCEL_CONFIG2_A_DLPFCFG_6       (uint8_t)0x06
+#define ACCEL_CONFIG2_A_DLPFCFG_7       (uint8_t)0x07
 
 #define PWR_MGMT_1_RST                  (uint8_t)0x00
 #define PWR_MGMT_1_H_RESET              (uint8_t)0x80

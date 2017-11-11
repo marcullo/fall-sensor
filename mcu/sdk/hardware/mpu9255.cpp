@@ -60,20 +60,26 @@ void mpu9255_init()
 {
     imu_i2c.frequency(400000);
     
+    wait(0.05);
+    
     if (!mpu9255_is_connected()) {
         process_error();
     }
     
     uint8_t init_table[][2] = {
             {PWR_MGMT_1, PWR_MGMT_1_RST},
-            {GYRO_CONFIG, GYRO_CONFIG_FULL_SCALE_2000DPS | GYRO_CONFIG_FCHOICE_B_1},
-            {ACCEL_CONFIG, ACCEL_CONFIG_FULL_SCALE_2G},
-            {ACCEL_CONFIG2, ACCEL_CONFIG2_FCHOICE_B_1}
+            {SMPLRT_DIV, 0x00},
+            {CONFIG, CONFIG_FSYNC_DISABLED | CONFIG_DLPF_CFG_0},
+            {GYRO_CONFIG, GYRO_CONFIG_FULL_SCALE_1000DPS},
+            {ACCEL_CONFIG, ACCEL_CONFIG_FULL_SCALE_8G},
+            {ACCEL_CONFIG2, ACCEL_CONFIG2_FCHOICE_B_0 | ACCEL_CONFIG2_A_DLPFCFG_1}
     };
     
     for (uint32_t i = 0; i < sizeof(init_table) / sizeof(init_table[0]); i++) {
         i2c_write_reg(init_table[i][0], init_table[i][1]);
     }
+    
+    wait(0.05);
 }
 
 bool mpu9255_is_connected()
