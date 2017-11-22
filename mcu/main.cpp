@@ -1,15 +1,19 @@
 #include "mbed.h" /* Release 150 */
+#include "SDFileSystem.h" /* 9 Sep 2016 */
 #include "sdk/hardware/mpu9255.h"
-#include "data_structures/imu_buffer.h"
+#include "imu_buffer/imu_buffer.h"
 #include "tools/error_handler.h"
 #include "tools/global_def.h"
 #include "command_decoder/command_decoder.h"
+
+#define DISC_NAME "sd"
 
 #define IMU_SAMPLES_NR          8000
 #define COLLECTING_FREQUENCY    1000
 #define COLLECTING_TIME         (float)((float)1/(float)COLLECTING_FREQUENCY)
 
 struct ImuSample imu_samples[IMU_SAMPLES_NR];
+uint32_t collected_samples_nr;
 
 #define HELLO_MESSAGE      "FSHELLO2017MARCULLO\r"
 
@@ -19,14 +23,13 @@ enum DeviceState {
     DEVSTATE_DISABLED,
     DEVSTATE_READY_FOR_ACQUISITION,
     DEVSTATE_ACQUIRING,
-    DEVSTATE_INTERRUPTED,
-    DEVSTATE_READY_FOR_TRANSMISSION,
-    DEVSTATE_TRANSMITTING,
-    DEVSTATE_DONE
+    DEVSTATE_INTERRUPTED
 };
 
 InterruptIn userButton(USER_BUTTON);
 DigitalOut successLed(LED1);
+SDFileSystem sd(PA_7, PA_6, PB_3, PB_6, DISC_NAME);
+PwmOut buzzer(PA_8);
 Serial pc(PA_9, PA_10);
 Ticker t;
 volatile bool processing_next_data_allowed;
@@ -61,10 +64,10 @@ void acquire_imu_samples(struct ImuBuffer* buf)
 
     t.attach(&allow_processing_data, COLLECTING_TIME);
     
+    collected_samples_nr = 0;
     while (1)
     {
-        if (device_state == DEVSTATE_INTERRUPTED &&
-                    buf_is_ready_for_read(buf))
+        if (device_state == DEVSTATE_INTERRUPTED)
             break;
         if (!processing_next_data_allowed)
             continue;
@@ -83,15 +86,62 @@ void acquire_imu_samples(struct ImuBuffer* buf)
         
         processing_next_data_allowed = false;
         
+        if (collected_samples_nr < IMU_SAMPLES_NR)
+            collected_samples_nr++;
+        
         cnt++;
-        if (cnt > IMU_SAMPLES_NR - 1)
+        if (cnt >= IMU_SAMPLES_NR)
         {
             successLed = !successLed;
             cnt = 0;
-        }
+        }    
     }
     
     t.detach();
+}
+
+void save_imu_samples(struct ImuBuffer* buf)
+{
+    static uint32_t packet_nr = 0;
+    
+    if (!buf)
+        return;
+        
+    char file_path[20];
+    sprintf(file_path, "/%s/%04x.dat", DISC_NAME, packet_nr);
+    
+    FILE* f = fopen(file_path, "w");
+    if (!f)
+        process_error();
+    
+    pc.printf("\r\nSaving (%d samples) to: %s\r\n", collected_samples_nr, file_path);
+    
+    fprintf(f, "FS%04x", collected_samples_nr);
+    
+    struct ImuSample new_sample;
+    while(!buf_is_empty(buf))
+    {
+        buf_read_next(buf, &new_sample);
+        
+        fprintf(f, "%04x%04x%04x",
+            new_sample.accel_x,
+            new_sample.accel_y,
+            new_sample.accel_z);
+            
+        fprintf(f, "%04x%04x%04x",
+            new_sample.gyro_x,
+            new_sample.gyro_y,
+            new_sample.gyro_z);
+    }
+    
+    pc.printf("\r\nSaved!\r\n");
+    
+    fprintf(f, "\r\n");
+
+    fclose(f);
+    
+    collected_samples_nr = 0;
+    packet_nr++;
 }
 
 void send_imu_samples(struct ImuBuffer* buf)
@@ -100,10 +150,10 @@ void send_imu_samples(struct ImuBuffer* buf)
         process_error();
      
     
-    pc.printf("FS%04x", IMU_SAMPLES_NR);
+    pc.printf("FS%04x", collected_samples_nr);
     
     struct ImuSample new_sample;
-    do
+    while(!buf_is_empty(buf))
     {
         buf_read_next(buf, &new_sample);
         
@@ -115,10 +165,12 @@ void send_imu_samples(struct ImuBuffer* buf)
         pc.printf("%04x%04x%04x",
             new_sample.gyro_x,
             new_sample.gyro_y,
-            new_sample.gyro_z);   
-    } while (!buf_is_all_data_read(buf));
+            new_sample.gyro_z);
+    }
     
     pc.printf("\r");
+    
+    collected_samples_nr = 0;
 }
 
 void send_packets_nr()
@@ -186,26 +238,40 @@ int main()
     pc.format(8, SerialBase::Even);
     mpu9255_init();
     
+    buzzer.period(1.0f);
+    buzzer.write(0.25f);
+    wait(1.0);
+    
     while(1)
-    {
-        device_state = DEVSTATE_READY_FOR_ACQUISITION;
-            
-        successLed.write(1);
-        wait(0.5);
+    {        
+        device_state = DEVSTATE_READY_FOR_ACQUISITION;    
+        
         device_state = DEVSTATE_ACQUIRING;
-        userButton.rise(&user_button_handler);
-        successLed.write(0);
+        userButton.fall(&user_button_handler);
+        
+        successLed = !successLed;
+        buzzer.write(0.0f);        
         
         acquire_imu_samples(imu_samples_buf);
         
-        userButton.rise(NULL);
+        userButton.fall(NULL);
         
-        device_state = DEVSTATE_READY_FOR_TRANSMISSION;
         successLed = !successLed;
-        wait(0.4);
-        successLed = !successLed;
+        wait(0.5);
 
-        process_pc_commands(imu_samples_buf);
+        if (isButtonPressed())
+        {
+            buzzer.write(0.25f);
+            wait(1.0);
+            buzzer.write(0.0f);
+            process_pc_commands(imu_samples_buf);
+        }
+        else 
+        {
+            buzzer.write(0.15f);
+            save_imu_samples(imu_samples_buf);
+            buzzer.write(0.0f);
+        }
     }
 }
 
