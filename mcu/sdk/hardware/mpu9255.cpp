@@ -69,10 +69,10 @@ void mpu9255_init()
     uint8_t init_table[][2] = {
             {PWR_MGMT_1, PWR_MGMT_1_RST},
             {SMPLRT_DIV, 0x00},
-            {CONFIG, CONFIG_FSYNC_DISABLED | CONFIG_DLPF_CFG_0},
+            {CONFIG, CONFIG_FSYNC_DISABLED | CONFIG_DLPF_CFG_2},
             {GYRO_CONFIG, GYRO_CONFIG_FULL_SCALE_1000DPS},
             {ACCEL_CONFIG, ACCEL_CONFIG_FULL_SCALE_8G},
-            {ACCEL_CONFIG2, ACCEL_CONFIG2_FCHOICE_B_0 | ACCEL_CONFIG2_A_DLPFCFG_1}
+            {ACCEL_CONFIG2, ACCEL_CONFIG2_FCHOICE_B_0 | ACCEL_CONFIG2_A_DLPFCFG_2}
     };
     
     for (uint32_t i = 0; i < sizeof(init_table) / sizeof(init_table[0]); i++) {
