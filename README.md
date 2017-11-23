@@ -5,7 +5,7 @@ Fall detection system based on incremental development model.
 Author: Lukasz Marcul.
 
 ## Latest Release
-[Circularly-buffered acquisition with command decoding system](https://github.com/Marcullo/fall-sensor/releases/tag/v0.3)
+[Circularly-buffered acquisition with measurement store and command decoding system](https://github.com/Marcullo/fall-sensor/releases/tag/v0.4)
 
 ## Purpose
 
