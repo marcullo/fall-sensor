@@ -16,6 +16,10 @@
 
 #define FIFO_ENABLE                     0x23
 
+#define INT_PIN_CFG                     0x37
+#define INT_ENABLE                      0x38
+#define INT_STATUS                      0x3A
+
 #define ACCEL_XOUT_H                    0x3B
 #define ACCEL_XOUT_L                    0x3C
 #define ACCEL_YOUT_H                    0x3D

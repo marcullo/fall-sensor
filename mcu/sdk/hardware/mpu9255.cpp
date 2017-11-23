@@ -21,10 +21,8 @@ static inline void i2c_read_regs(uint8_t first_reg, uint8_t regs_nr, uint8_t* da
     char start_reg = first_reg;
     char* rx_data = (char*)data; 
     
-    if(imu_i2c.write(ACC_GYRO_ADDRESS_7B_WRITE, &start_reg, sizeof(start_reg)))
-        process_error();
-        
-    if(imu_i2c.read(ACC_GYRO_ADDRESS_7B_READ, rx_data, 6))
+    imu_i2c.write(ACC_GYRO_ADDRESS_7B_WRITE, &start_reg, sizeof(start_reg), true);
+    if(imu_i2c.read(ACC_GYRO_ADDRESS_7B_READ, rx_data, regs_nr))
         process_error();
 }
 
@@ -36,10 +34,8 @@ static inline void i2c_read_reg(uint8_t reg, uint8_t* value)
     char rx_reg = reg;
     char* rx_data = (char*)value;
     
-    if(imu_i2c.write(ACC_GYRO_ADDRESS_7B_WRITE, &rx_reg, sizeof(rx_reg)))
-        process_error();
-        
-    if(imu_i2c.read(ACC_GYRO_ADDRESS_7B_READ, rx_data, 1))
+    imu_i2c.write(ACC_GYRO_ADDRESS_7B_WRITE, &rx_reg, 1, true);
+    if (imu_i2c.read(ACC_GYRO_ADDRESS_7B_READ, rx_data, 1) != 0)
         process_error();
 }
 
@@ -67,12 +63,14 @@ void mpu9255_init()
     }
     
     uint8_t init_table[][2] = {
-            {PWR_MGMT_1, PWR_MGMT_1_RST},
+            {PWR_MGMT_1, 0x00},
             {SMPLRT_DIV, 0x00},
-            {CONFIG, CONFIG_FSYNC_DISABLED | CONFIG_DLPF_CFG_2},
-            {GYRO_CONFIG, GYRO_CONFIG_FULL_SCALE_1000DPS},
-            {ACCEL_CONFIG, ACCEL_CONFIG_FULL_SCALE_8G},
-            {ACCEL_CONFIG2, ACCEL_CONFIG2_FCHOICE_B_0 | ACCEL_CONFIG2_A_DLPFCFG_2}
+            {CONFIG, 0x02},
+            {GYRO_CONFIG, 0x10},
+            {ACCEL_CONFIG, 0x18},
+            {ACCEL_CONFIG2, 0x02},
+            {INT_PIN_CFG, 0xD3},
+            {INT_ENABLE, 0x01}
     };
     
     for (uint32_t i = 0; i < sizeof(init_table) / sizeof(init_table[0]); i++) {
@@ -84,15 +82,8 @@ void mpu9255_init()
 
 bool mpu9255_is_connected()
 {
-    char identity = 0x00;
-    char who_am_i_reg = WHO_AM_I;
-    
-    if(imu_i2c.write(ACC_GYRO_ADDRESS_7B_WRITE, &who_am_i_reg, sizeof(who_am_i_reg)))
-        process_error();
-        
-    if(imu_i2c.read(ACC_GYRO_ADDRESS_7B_READ, &identity, sizeof(identity)))
-        process_error();
-        
+    uint8_t identity = 0x00;   
+    i2c_read_reg(WHO_AM_I, &identity);
     return identity == WHO_AM_I_IDENTITY;
 }
 

@@ -8,7 +8,7 @@
 
 #define DISC_NAME "sd"
 
-#define IMU_SAMPLES_NR          8000
+#define IMU_SAMPLES_NR          5000
 #define COLLECTING_FREQUENCY    1000
 #define COLLECTING_TIME         (float)((float)1/(float)COLLECTING_FREQUENCY)
 
@@ -27,11 +27,11 @@ enum DeviceState {
 };
 
 InterruptIn userButton(USER_BUTTON);
-DigitalOut successLed(LED1);
+InterruptIn imuIntPin(PC_9);
+DigitalOut successLed(PC_0);
 SDFileSystem sd(PA_7, PA_6, PB_3, PB_6, DISC_NAME);
 PwmOut buzzer(PA_8);
 Serial pc(PA_9, PA_10);
-Ticker t;
 volatile bool processing_next_data_allowed;
 volatile enum DeviceState device_state;
 
@@ -53,6 +53,13 @@ void allow_processing_data()
     }
 }
 
+volatile bool newDataAvailable = false;
+
+void imu_interrupt_handler()
+{
+    newDataAvailable = true;
+}
+
 void acquire_imu_samples(struct ImuBuffer* buf)
 {
     if (!buf)
@@ -62,25 +69,26 @@ void acquire_imu_samples(struct ImuBuffer* buf)
     uint32_t cnt = 0;
     struct ImuSample new_sample;
 
-    t.attach(&allow_processing_data, COLLECTING_TIME);
+    imuIntPin.fall(&imu_interrupt_handler);
     
     collected_samples_nr = 0;
     while (1)
     {
         if (device_state == DEVSTATE_INTERRUPTED)
             break;
-        if (!processing_next_data_allowed)
+        if(!newDataAvailable)
             continue;
+        newDataAvailable = false;
                     
         mpu9255_accel_read_data_regs(regs_read);
-        new_sample.accel_x = (uint16_t)((regs_read[0] << 8) + regs_read[1]);
-        new_sample.accel_y = (uint16_t)((regs_read[2] << 8) + regs_read[3]);
-        new_sample.accel_z = (uint16_t)((regs_read[4] << 8) + regs_read[5]);
+        new_sample.accel_x = (uint16_t)(((uint16_t)regs_read[0] << 8) + regs_read[1]);
+        new_sample.accel_y = (uint16_t)(((uint16_t)regs_read[2] << 8) + regs_read[3]);
+        new_sample.accel_z = (uint16_t)(((uint16_t)regs_read[4] << 8) + regs_read[5]);
         
         mpu9255_gyro_read_data_regs(regs_read);
-        new_sample.gyro_x = (uint16_t)((regs_read[0] << 8) + regs_read[1]);
-        new_sample.gyro_y = (uint16_t)((regs_read[2] << 8) + regs_read[3]);
-        new_sample.gyro_z = (uint16_t)((regs_read[4] << 8) + regs_read[5]);
+        new_sample.gyro_x = (uint16_t)(((uint16_t)regs_read[0] << 8) + regs_read[1]);
+        new_sample.gyro_y = (uint16_t)(((uint16_t)regs_read[2] << 8) + regs_read[3]);
+        new_sample.gyro_z = (uint16_t)(((uint16_t)regs_read[4] << 8) + regs_read[5]);
         
         buf_replace_next(buf, &new_sample);
         
@@ -97,7 +105,7 @@ void acquire_imu_samples(struct ImuBuffer* buf)
         }    
     }
     
-    t.detach();
+    imuIntPin.fall(NULL);
 }
 
 void save_imu_samples(struct ImuBuffer* buf)
