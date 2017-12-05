@@ -67,7 +67,7 @@ void mpu9255_init()
             {SMPLRT_DIV, 0x00},
             {CONFIG, 0x02},
             {GYRO_CONFIG, 0x10},
-            {ACCEL_CONFIG, 0x18},
+            {ACCEL_CONFIG, 0x10},
             {ACCEL_CONFIG2, 0x02},
             {INT_PIN_CFG, 0xD3},
             {INT_ENABLE, 0x01}
@@ -87,12 +87,7 @@ bool mpu9255_is_connected()
     return identity == WHO_AM_I_IDENTITY;
 }
 
-void mpu9255_accel_read_data_regs(uint8_t* data)
+void mpu9255_read_data(uint8_t* data)
 {
-    i2c_read_regs(ACCEL_XOUT_H, 6, data);
-}
-
-void mpu9255_gyro_read_data_regs(uint8_t* data)
-{
-    i2c_read_regs(GYRO_XOUT_H, 6, data);
+    i2c_read_regs(ACCEL_XOUT_H, 14, data);
 }
