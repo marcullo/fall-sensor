@@ -16,12 +16,17 @@
 				<Item Name="GPState.ctl" Type="VI" URL="../FallSensor/GetPackets/GPState.ctl"/>
 				<Item Name="GPContext.ctl" Type="VI" URL="../FallSensor/GetPackets/GPContext.ctl"/>
 			</Item>
+			<Item Name="ReadingUnits" Type="Folder">
+				<Item Name="AccelReadingUnit.ctl" Type="VI" URL="../FallSensor/ReadingUnits/AccelReadingUnit.ctl"/>
+				<Item Name="GyroReadingUnit.ctl" Type="VI" URL="../FallSensor/ReadingUnits/GyroReadingUnit.ctl"/>
+			</Item>
 			<Item Name="FSContext.ctl" Type="VI" URL="../FallSensor/FSContext.ctl"/>
 			<Item Name="FSState.ctl" Type="VI" URL="../FallSensor/FSState.ctl"/>
-			<Item Name="EventStatus.ctl" Type="VI" URL="../FallSensor/EventStatus.ctl"/>
-			<Item Name="Data.ctl" Type="VI" URL="../FallSensor/Data.ctl"/>
-			<Item Name="DataType.ctl" Type="VI" URL="../FallSensor/DataType.ctl"/>
+			<Item Name="Packet.ctl" Type="VI" URL="../FallSensor/Packet.ctl"/>
 			<Item Name="Sample.ctl" Type="VI" URL="../FallSensor/Sample.ctl"/>
+			<Item Name="Reading.ctl" Type="VI" URL="../FallSensor/Reading.ctl"/>
+			<Item Name="DataType.ctl" Type="VI" URL="../FallSensor/DataType.ctl"/>
+			<Item Name="EventStatus.ctl" Type="VI" URL="../FallSensor/EventStatus.ctl"/>
 			<Item Name="GetPackets.vi" Type="VI" URL="../FallSensor/GetPackets.vi"/>
 		</Item>
 		<Item Name="Requests" Type="Folder">
@@ -45,9 +50,12 @@
 			</Item>
 			<Item Name="DecodeFrameHeader.vi" Type="VI" URL="../Frame/DecodeFrameHeader.vi"/>
 			<Item Name="DecodeNumericFrame.vi" Type="VI" URL="../Frame/DecodeNumericFrame.vi"/>
+			<Item Name="DecodeNumericValue.vi" Type="VI" URL="../Frame/DecodeNumericValue.vi"/>
 			<Item Name="DecodeDataFrame.vi" Type="VI" URL="../Frame/DecodeDataFrame.vi"/>
 		</Item>
 		<Item Name="FTDI" Type="Folder">
+			<Item Name="COMConfigure.vi" Type="VI" URL="../FTDI/COMConfigure.vi"/>
+			<Item Name="COMResponsiveness.ctl" Type="VI" URL="../FTDI/COMResponsiveness.ctl"/>
 			<Item Name="COMConfig.ctl" Type="VI" URL="../FTDI/COMConfig.ctl"/>
 			<Item Name="COMDirection.ctl" Type="VI" URL="../FTDI/COMDirection.ctl"/>
 			<Item Name="COMMode.ctl" Type="VI" URL="../FTDI/COMMode.ctl"/>
