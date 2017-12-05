@@ -21,12 +21,12 @@
 #include <stdbool.h>
 
 struct ImuSample {
-    uint16_t accel_x;
-    uint16_t accel_y;
-    uint16_t accel_z;
-    uint16_t gyro_x;
-    uint16_t gyro_y;
-    uint16_t gyro_z;
+    uint16_t ax;
+    uint16_t ay;
+    uint16_t az;
+    uint16_t gx;
+    uint16_t gy;
+    uint16_t gz;
 };
 
 struct ImuBuffer {
@@ -44,6 +44,7 @@ void buf_delete(struct ImuBuffer* buf);
 
 bool buf_is_full(struct ImuBuffer* buf);
 bool buf_is_empty(struct ImuBuffer* buf);
+void buf_flush(struct ImuBuffer* buf);
 void buf_replace_next(struct ImuBuffer* buf, struct ImuSample* new_sample);
 void buf_read_next(struct ImuBuffer* buf, struct ImuSample* sample);
 

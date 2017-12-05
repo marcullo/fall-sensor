@@ -65,6 +65,18 @@ bool buf_is_empty(struct ImuBuffer* buf)
     return (buf && buf->_empty);
 }
 
+void buf_flush(struct ImuBuffer* buf)
+{
+    if (!buf)
+        return;
+        
+    struct ImuSample dummy;
+    while (!buf_is_empty(buf))
+    {
+        buf_read_next(buf, &dummy);
+    }
+}
+
 void buf_replace_next(struct ImuBuffer* buf, struct ImuSample* new_sample)
 {
     if (!buf || !new_sample)

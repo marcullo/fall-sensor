@@ -8,10 +8,11 @@ struct Command {
     char value[COMMAND_MAX_LEN];
 };
 
-#define COMMANDS_NR 5
+#define COMMANDS_NR 6
 
 struct Command Commands[COMMANDS_NR] = {
         {FS_HELLO,         "fshello"},
+        {FS_GOODBYE,       "fsgoodbye"},
         {FS_RESET,         "fsreset"},
         {FS_PACKETS_NR,    "fspnum"},
         {FS_FREQUENCY,     "fsfreq"},

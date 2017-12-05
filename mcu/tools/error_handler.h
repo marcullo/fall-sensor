@@ -6,7 +6,7 @@
 inline void process_error()
 {
     static int led_state = 0;
-    DigitalOut errorLed(LED1);
+    DigitalOut errorLed(PC_0);
     PwmOut buzzer(PA_8);
     
     buzzer.period(0.3);
