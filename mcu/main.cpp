@@ -8,7 +8,7 @@
 
 #define DISC_NAME "sd"
 
-#define IMU_SAMPLES_NR          8000
+#define IMU_SAMPLES_NR          6000
 #define COLLECTING_FREQUENCY    1000
 #define COLLECTING_TIME         (float)((float)1/(float)COLLECTING_FREQUENCY)
 
