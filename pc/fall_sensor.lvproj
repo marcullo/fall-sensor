@@ -82,13 +82,13 @@
 		<Item Name="File" Type="Folder">
 			<Item Name="FormatData.vi" Type="VI" URL="../File/FormatData.vi"/>
 			<Item Name="FormatDataContext.ctl" Type="VI" URL="../File/FormatDataContext.ctl"/>
-			<Item Name="FileSection.ctl" Type="VI" URL="../File/FileSection.ctl"/>
 			<Item Name="ScanData.vi" Type="VI" URL="../File/ScanData.vi"/>
+			<Item Name="ScanDataContext.ctl" Type="VI" URL="../File/ScanDataContext.ctl"/>
+			<Item Name="FileSection.ctl" Type="VI" URL="../File/FileSection.ctl"/>
 		</Item>
 		<Item Name="FallSensor.vi" Type="VI" URL="../FallSensor.vi"/>
 		<Item Name="GetAvailableFTDevices.vi" Type="VI" URL="../GetAvailableFTDevices.vi"/>
 		<Item Name="ProcessRequest.vi" Type="VI" URL="../ProcessRequest.vi"/>
-		<Item Name="ScanDataContext.ctl" Type="VI" URL="../File/ScanDataContext.ctl"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="VISA Configure Serial Port (Serial Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Serial Instr).vi"/>
