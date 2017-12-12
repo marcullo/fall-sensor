@@ -64,11 +64,11 @@ void mpu9255_init()
     
     uint8_t init_table[][2] = {
             {PWR_MGMT_1, 0x00},
-            {SMPLRT_DIV, 0x00},
-            {CONFIG, 0x02},
+            {SMPLRT_DIV, 0x09},
+            {CONFIG, 0x06},
             {GYRO_CONFIG, 0x10},
             {ACCEL_CONFIG, 0x10},
-            {ACCEL_CONFIG2, 0x02},
+            {ACCEL_CONFIG2, 0x06},
             {INT_PIN_CFG, 0xD3},
             {INT_ENABLE, 0x01}
     };

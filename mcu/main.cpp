@@ -10,10 +10,9 @@
 #define DISC_NAME "sd"
 #define PACKETS_PATH "/"DISC_NAME
 
-#define IMU_SAMPLES_NR          5000
+#define IMU_SAMPLES_NR          1000
 #define IMU_DEGREES_OF_FREEDOM  6
-#define COLLECTING_FREQUENCY    1000
-#define COLLECTING_TIME         (float)((float)1/(float)COLLECTING_FREQUENCY)
+#define COLLECTING_FREQUENCY    100
 
 struct ImuSample imu_samples[IMU_SAMPLES_NR];
 uint32_t collected_samples_nr;
@@ -121,6 +120,27 @@ void acquire_imu_samples(struct ImuBuffer* buf)
 }
 
 static uint32_t packet_nr = 0;
+
+void flush_sd_card(void)
+{
+    char file_path[20];
+    DIR *dp;
+    struct dirent *dirp;
+    dp = opendir(PACKETS_PATH);
+    
+    while((dirp = readdir(dp)) != NULL) {
+        sprintf(file_path, "%s/%s", PACKETS_PATH, dirp->d_name);
+        
+        FILE* f = fopen(file_path, "r");
+        if (!f)
+            continue;
+        fclose(f);
+        
+        int res = remove(file_path);
+        if (res != 0)
+            process_error();
+    }
+}
 
 void save_imu_samples(struct ImuBuffer* buf)
 {
@@ -336,8 +356,9 @@ void process_pc_commands(struct ImuBuffer* samples)
                 read_imu_samples(i, samples, &samples_nr);
                 send_imu_samples(i, samples, samples_nr);
             }
+            flush_sd_card();
         }
-            break;
+            return;
             
         default:
             break;            

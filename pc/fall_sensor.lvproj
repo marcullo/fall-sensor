@@ -20,6 +20,10 @@
 				<Item Name="AccelReadingUnit.ctl" Type="VI" URL="../FallSensor/ReadingUnits/AccelReadingUnit.ctl"/>
 				<Item Name="GyroReadingUnit.ctl" Type="VI" URL="../FallSensor/ReadingUnits/GyroReadingUnit.ctl"/>
 			</Item>
+			<Item Name="QueueGUI" Type="Folder">
+				<Item Name="GUIOperation.ctl" Type="VI" URL="../FallSensor/QueueGUI/GUIOperation.ctl"/>
+				<Item Name="QueueGUIContext.ctl" Type="VI" URL="../FallSensor/QueueGUI/QueueGUIContext.ctl"/>
+			</Item>
 			<Item Name="FSContext.ctl" Type="VI" URL="../FallSensor/FSContext.ctl"/>
 			<Item Name="FSState.ctl" Type="VI" URL="../FallSensor/FSState.ctl"/>
 			<Item Name="Packet.ctl" Type="VI" URL="../FallSensor/Packet.ctl"/>
@@ -28,6 +32,11 @@
 			<Item Name="DataType.ctl" Type="VI" URL="../FallSensor/DataType.ctl"/>
 			<Item Name="EventStatus.ctl" Type="VI" URL="../FallSensor/EventStatus.ctl"/>
 			<Item Name="GetPackets.vi" Type="VI" URL="../FallSensor/GetPackets.vi"/>
+			<Item Name="SavePackets.vi" Type="VI" URL="../FallSensor/SavePackets.vi"/>
+			<Item Name="LoadPackets.vi" Type="VI" URL="../FallSensor/LoadPackets.vi"/>
+			<Item Name="EnqueueGUIUpdate.vi" Type="VI" URL="../FallSensor/EnqueueGUIUpdate.vi"/>
+			<Item Name="DequeueGUIUpdate.vi" Type="VI" URL="../FallSensor/DequeueGUIUpdate.vi"/>
+			<Item Name="EnqueueGUIMultipleUpdate.vi" Type="VI" URL="../FallSensor/EnqueueGUIMultipleUpdate.vi"/>
 		</Item>
 		<Item Name="Requests" Type="Folder">
 			<Item Name="RequestType.ctl" Type="VI" URL="../Requests/RequestType.ctl"/>
@@ -36,12 +45,14 @@
 			<Item Name="FindRequestByType.vi" Type="VI" URL="../Requests/FindRequestByType.vi"/>
 		</Item>
 		<Item Name="Frame" Type="Folder">
-			<Item Name="DecodeDataFrame" Type="Folder">
-				<Item Name="DDFContext.ctl" Type="VI" URL="../Frame/DecodeDataFrame/DDFContext.ctl"/>
-				<Item Name="DDFDataFrameSection.ctl" Type="VI" URL="../Frame/DecodeDataFrame/DDFDataFrameSection.ctl"/>
-				<Item Name="DDFDataFrameSectionsLen.ctl" Type="VI" URL="../Frame/DecodeDataFrame/DDFDataFrameSectionsLen.ctl"/>
-				<Item Name="HexStringToSample.vi" Type="VI" URL="../Frame/DecodeDataFrame/HexStringToSample.vi"/>
-				<Item Name="AppendNewPackets.vi" Type="VI" URL="../Frame/DecodeDataFrame/AppendNewPackets.vi"/>
+			<Item Name="DataFrame" Type="Folder">
+				<Item Name="DataFrameContext.ctl" Type="VI" URL="../Frame/DataFrame/DataFrameContext.ctl"/>
+				<Item Name="DataFrameSection.ctl" Type="VI" URL="../Frame/DataFrame/DataFrameSection.ctl"/>
+				<Item Name="DataFrameSectionsLen.ctl" Type="VI" URL="../Frame/DataFrame/DataFrameSectionsLen.ctl"/>
+				<Item Name="HexStringToSample.vi" Type="VI" URL="../Frame/DataFrame/HexStringToSample.vi"/>
+				<Item Name="SampleToHexString.vi" Type="VI" URL="../Frame/DataFrame/SampleToHexString.vi"/>
+				<Item Name="AppendNewPackets.vi" Type="VI" URL="../Frame/DataFrame/AppendNewPackets.vi"/>
+				<Item Name="DetachNewPackets.vi" Type="VI" URL="../Frame/DataFrame/DetachNewPackets.vi"/>
 			</Item>
 			<Item Name="DecodeNumericFrame" Type="Folder">
 				<Item Name="DNFContext.ctl" Type="VI" URL="../Frame/DecodeNumericFrame/DNFContext.ctl"/>
@@ -52,6 +63,9 @@
 			<Item Name="DecodeNumericFrame.vi" Type="VI" URL="../Frame/DecodeNumericFrame.vi"/>
 			<Item Name="DecodeNumericValue.vi" Type="VI" URL="../Frame/DecodeNumericValue.vi"/>
 			<Item Name="DecodeDataFrame.vi" Type="VI" URL="../Frame/DecodeDataFrame.vi"/>
+			<Item Name="EncodeFrameHeader.vi" Type="VI" URL="../Frame/EncodeFrameHeader.vi"/>
+			<Item Name="EncodeNumericValue.vi" Type="VI" URL="../Frame/EncodeNumericValue.vi"/>
+			<Item Name="EncodeDataFrame.vi" Type="VI" URL="../Frame/EncodeDataFrame.vi"/>
 		</Item>
 		<Item Name="FTDI" Type="Folder">
 			<Item Name="COMConfigure.vi" Type="VI" URL="../FTDI/COMConfigure.vi"/>
@@ -65,12 +79,27 @@
 			<Item Name="FT_Open_Device_By_Description.vi" Type="VI" URL="../FTDI/FT_Open_Device_By_Description.vi"/>
 			<Item Name="FT_Close_Device.vi" Type="VI" URL="../FTDI/FT_Close_Device.vi"/>
 		</Item>
+		<Item Name="File" Type="Folder">
+			<Item Name="FormatData.vi" Type="VI" URL="../File/FormatData.vi"/>
+			<Item Name="FormatDataContext.ctl" Type="VI" URL="../File/FormatDataContext.ctl"/>
+			<Item Name="ScanData.vi" Type="VI" URL="../File/ScanData.vi"/>
+			<Item Name="ScanDataContext.ctl" Type="VI" URL="../File/ScanDataContext.ctl"/>
+			<Item Name="FileSection.ctl" Type="VI" URL="../File/FileSection.ctl"/>
+		</Item>
 		<Item Name="FallSensor.vi" Type="VI" URL="../FallSensor.vi"/>
 		<Item Name="GetAvailableFTDevices.vi" Type="VI" URL="../GetAvailableFTDevices.vi"/>
 		<Item Name="ProcessRequest.vi" Type="VI" URL="../ProcessRequest.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
-				<Item Name="Clear Errors.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Clear Errors.vi"/>
+				<Item Name="VISA Configure Serial Port (Serial Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Serial Instr).vi"/>
+				<Item Name="VISA Configure Serial Port (Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Instr).vi"/>
+				<Item Name="VISA Configure Serial Port" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port"/>
+				<Item Name="RGB to Color.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/colorconv.llb/RGB to Color.vi"/>
+				<Item Name="Application Directory.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Application Directory.vi"/>
+				<Item Name="NI_FileType.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/lvfile.llb/NI_FileType.lvlib"/>
+				<Item Name="Error Cluster From Error Code.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Cluster From Error Code.vi"/>
+				<Item Name="ex_CorrectErrorChain.vi" Type="VI" URL="/&lt;vilib&gt;/express/express shared/ex_CorrectErrorChain.vi"/>
+				<Item Name="subFile Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/express/express input/FileDialogBlock.llb/subFile Dialog.vi"/>
 				<Item Name="GetHelpDir.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/GetHelpDir.vi"/>
 				<Item Name="BuildHelpPath.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/BuildHelpPath.vi"/>
 				<Item Name="LVBoundsTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVBoundsTypeDef.ctl"/>
@@ -84,6 +113,7 @@
 				<Item Name="DialogTypeEnum.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/DialogTypeEnum.ctl"/>
 				<Item Name="Not Found Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Not Found Dialog.vi"/>
 				<Item Name="Set Bold Text.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Set Bold Text.vi"/>
+				<Item Name="Clear Errors.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Clear Errors.vi"/>
 				<Item Name="eventvkey.ctl" Type="VI" URL="/&lt;vilib&gt;/event_ctls.llb/eventvkey.ctl"/>
 				<Item Name="TagReturnType.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/TagReturnType.ctl"/>
 				<Item Name="ErrWarn.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/ErrWarn.ctl"/>
@@ -101,13 +131,6 @@
 				<Item Name="DialogType.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/DialogType.ctl"/>
 				<Item Name="General Error Handler.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/General Error Handler.vi"/>
 				<Item Name="Simple Error Handler.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Simple Error Handler.vi"/>
-				<Item Name="VISA Configure Serial Port (Serial Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Serial Instr).vi"/>
-				<Item Name="VISA Configure Serial Port (Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Instr).vi"/>
-				<Item Name="VISA Configure Serial Port" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port"/>
-				<Item Name="RGB to Color.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/colorconv.llb/RGB to Color.vi"/>
-				<Item Name="Application Directory.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Application Directory.vi"/>
-				<Item Name="NI_FileType.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/lvfile.llb/NI_FileType.lvlib"/>
-				<Item Name="Error Cluster From Error Code.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Cluster From Error Code.vi"/>
 			</Item>
 			<Item Name="FTD2XX.dll" Type="Document" URL="FTD2XX.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
