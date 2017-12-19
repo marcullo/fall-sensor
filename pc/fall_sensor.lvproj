@@ -16,13 +16,18 @@
 				<Item Name="GPState.ctl" Type="VI" URL="../FallSensor/GetPackets/GPState.ctl"/>
 				<Item Name="GPContext.ctl" Type="VI" URL="../FallSensor/GetPackets/GPContext.ctl"/>
 			</Item>
-			<Item Name="ReadingUnits" Type="Folder">
-				<Item Name="AccelReadingUnit.ctl" Type="VI" URL="../FallSensor/ReadingUnits/AccelReadingUnit.ctl"/>
-				<Item Name="GyroReadingUnit.ctl" Type="VI" URL="../FallSensor/ReadingUnits/GyroReadingUnit.ctl"/>
-			</Item>
 			<Item Name="QueueGUI" Type="Folder">
 				<Item Name="GUIOperation.ctl" Type="VI" URL="../FallSensor/QueueGUI/GUIOperation.ctl"/>
 				<Item Name="QueueGUIContext.ctl" Type="VI" URL="../FallSensor/QueueGUI/QueueGUIContext.ctl"/>
+			</Item>
+			<Item Name="Measurement" Type="Folder">
+				<Item Name="AccelFSRange.ctl" Type="VI" URL="../FallSensor/Measurement/AccelFSRange.ctl"/>
+				<Item Name="GyroFSRange.ctl" Type="VI" URL="../FallSensor/Measurement/GyroFSRange.ctl"/>
+				<Item Name="MeasSample.ctl" Type="VI" URL="../FallSensor/Measurement/MeasSample.ctl"/>
+				<Item Name="MeasReading.ctl" Type="VI" URL="../FallSensor/Measurement/MeasReading.ctl"/>
+				<Item Name="ConvertSamples.vi" Type="VI" URL="../FallSensor/Measurement/ConvertSamples.vi"/>
+				<Item Name="AccelFSRangeToDouble.vi" Type="VI" URL="../FallSensor/Measurement/AccelFSRangeToDouble.vi"/>
+				<Item Name="GyroFSRangeToDouble.vi" Type="VI" URL="../FallSensor/Measurement/GyroFSRangeToDouble.vi"/>
 			</Item>
 			<Item Name="FSContext.ctl" Type="VI" URL="../FallSensor/FSContext.ctl"/>
 			<Item Name="FSState.ctl" Type="VI" URL="../FallSensor/FSState.ctl"/>
@@ -31,12 +36,14 @@
 			<Item Name="Reading.ctl" Type="VI" URL="../FallSensor/Reading.ctl"/>
 			<Item Name="DataType.ctl" Type="VI" URL="../FallSensor/DataType.ctl"/>
 			<Item Name="EventStatus.ctl" Type="VI" URL="../FallSensor/EventStatus.ctl"/>
+			<Item Name="MeasurementConfig.ctl" Type="VI" URL="../FallSensor/MeasurementConfig.ctl"/>
 			<Item Name="GetPackets.vi" Type="VI" URL="../FallSensor/GetPackets.vi"/>
 			<Item Name="SavePackets.vi" Type="VI" URL="../FallSensor/SavePackets.vi"/>
 			<Item Name="LoadPackets.vi" Type="VI" URL="../FallSensor/LoadPackets.vi"/>
 			<Item Name="EnqueueGUIUpdate.vi" Type="VI" URL="../FallSensor/EnqueueGUIUpdate.vi"/>
 			<Item Name="DequeueGUIUpdate.vi" Type="VI" URL="../FallSensor/DequeueGUIUpdate.vi"/>
 			<Item Name="EnqueueGUIMultipleUpdate.vi" Type="VI" URL="../FallSensor/EnqueueGUIMultipleUpdate.vi"/>
+			<Item Name="Menu.rtm" Type="Document" URL="../FallSensor/Menu.rtm"/>
 		</Item>
 		<Item Name="Requests" Type="Folder">
 			<Item Name="RequestType.ctl" Type="VI" URL="../Requests/RequestType.ctl"/>
@@ -86,6 +93,17 @@
 			<Item Name="ScanDataContext.ctl" Type="VI" URL="../File/ScanDataContext.ctl"/>
 			<Item Name="FileSection.ctl" Type="VI" URL="../File/FileSection.ctl"/>
 		</Item>
+		<Item Name="JSON" Type="Folder">
+			<Item Name="JSONStreamType.ctl" Type="VI" URL="../JSON/JSONStreamType.ctl"/>
+			<Item Name="PacketsToJSON.vi" Type="VI" URL="../JSON/PacketsToJSON.vi"/>
+			<Item Name="PacketToJSON.vi" Type="VI" URL="../JSON/PacketToJSON.vi"/>
+			<Item Name="MeasurementConfigToJSON.vi" Type="VI" URL="../JSON/MeasurementConfigToJSON.vi"/>
+			<Item Name="SampleToJSON.vi" Type="VI" URL="../JSON/SampleToJSON.vi"/>
+			<Item Name="JSONToPackets.vi" Type="VI" URL="../JSON/JSONToPackets.vi"/>
+			<Item Name="JSONToPacket.vi" Type="VI" URL="../JSON/JSONToPacket.vi"/>
+			<Item Name="JSONToMeasurementConfig.vi" Type="VI" URL="../JSON/JSONToMeasurementConfig.vi"/>
+			<Item Name="JSONToSample.vi" Type="VI" URL="../JSON/JSONToSample.vi"/>
+		</Item>
 		<Item Name="FallSensor.vi" Type="VI" URL="../FallSensor.vi"/>
 		<Item Name="GetAvailableFTDevices.vi" Type="VI" URL="../GetAvailableFTDevices.vi"/>
 		<Item Name="ProcessRequest.vi" Type="VI" URL="../ProcessRequest.vi"/>
@@ -94,7 +112,6 @@
 				<Item Name="VISA Configure Serial Port (Serial Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Serial Instr).vi"/>
 				<Item Name="VISA Configure Serial Port (Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Instr).vi"/>
 				<Item Name="VISA Configure Serial Port" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port"/>
-				<Item Name="RGB to Color.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/colorconv.llb/RGB to Color.vi"/>
 				<Item Name="Application Directory.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Application Directory.vi"/>
 				<Item Name="NI_FileType.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/lvfile.llb/NI_FileType.lvlib"/>
 				<Item Name="Error Cluster From Error Code.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Cluster From Error Code.vi"/>
@@ -131,6 +148,55 @@
 				<Item Name="DialogType.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/DialogType.ctl"/>
 				<Item Name="General Error Handler.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/General Error Handler.vi"/>
 				<Item Name="Simple Error Handler.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Simple Error Handler.vi"/>
+				<Item Name="LVRowAndColumnUnsignedTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVRowAndColumnUnsignedTypeDef.ctl"/>
+				<Item Name="JSON Object.lvclass" Type="LVClass" URL="/&lt;vilib&gt;/addons/JSON API/JSON Object/JSON Object.lvclass"/>
+				<Item Name="JSON Value.lvclass" Type="LVClass" URL="/&lt;vilib&gt;/addons/JSON API/JSON Value/JSON Value.lvclass"/>
+				<Item Name="JSON Scalar.lvclass" Type="LVClass" URL="/&lt;vilib&gt;/addons/JSON API/JSON Scalar/JSON Scalar.lvclass"/>
+				<Item Name="JSON support.lvlib" Type="Library" URL="/&lt;vilib&gt;/addons/JSON API/support/JSON support.lvlib"/>
+				<Item Name="VariantType.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/VariantDataType/VariantType.lvlib"/>
+				<Item Name="TD_Refnum Kind.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/TD_Refnum Kind.ctl"/>
+				<Item Name="Type Descriptor I16.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/Type Descriptor I16.ctl"/>
+				<Item Name="Type Descriptor I16 Array.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/Type Descriptor I16 Array.ctl"/>
+				<Item Name="TD_Get Ref Info.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/TD_Get Ref Info.vi"/>
+				<Item Name="Type Code.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/Type Code.ctl"/>
+				<Item Name="Type Enum.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/Type Enum.ctl"/>
+				<Item Name="Get Type Code from I16 Array And Pos.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/Get Type Code from I16 Array And Pos.vi"/>
+				<Item Name="JSON Statistics.lvclass" Type="LVClass" URL="/&lt;vilib&gt;/addons/JSON API/Statistics/JSON Statistics.lvclass"/>
+				<Item Name="NI_AALBase.lvlib" Type="Library" URL="/&lt;vilib&gt;/Analysis/NI_AALBase.lvlib"/>
+				<Item Name="JSON Running Mean.lvclass" Type="LVClass" URL="/&lt;vilib&gt;/addons/JSON API/JSON Running Mean/JSON Running Mean.lvclass"/>
+				<Item Name="JSON Array.lvclass" Type="LVClass" URL="/&lt;vilib&gt;/addons/JSON API/JSON Array/JSON Array.lvclass"/>
+				<Item Name="TD_GetPStr.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/TD_GetPStr.vi"/>
+				<Item Name="TD_Get Enum Information.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/TD_Get Enum Information.vi"/>
+				<Item Name="Variant JSON.lvlib" Type="Library" URL="/&lt;vilib&gt;/addons/JSON API/Variant JSON/Variant JSON.lvlib"/>
+				<Item Name="JSON GetSet.lvlib" Type="Library" URL="/&lt;vilib&gt;/addons/JSON API/Get Polymorphic/JSON GetSet.lvlib"/>
+			</Item>
+			<Item Name="user.lib" Type="Folder">
+				<Item Name="Get PString__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get PString__ogtk.vi"/>
+				<Item Name="Build Error Cluster__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/error/error.llb/Build Error Cluster__ogtk.vi"/>
+				<Item Name="Type Descriptor Enumeration__ogtk.ctl" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Type Descriptor Enumeration__ogtk.ctl"/>
+				<Item Name="Type Descriptor Header__ogtk.ctl" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Type Descriptor Header__ogtk.ctl"/>
+				<Item Name="Type Descriptor__ogtk.ctl" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Type Descriptor__ogtk.ctl"/>
+				<Item Name="Get Header from TD__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Header from TD__ogtk.vi"/>
+				<Item Name="Get Strings from Enum TD__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Strings from Enum TD__ogtk.vi"/>
+				<Item Name="Variant to Header Info__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Variant to Header Info__ogtk.vi"/>
+				<Item Name="Get Strings from Enum__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Strings from Enum__ogtk.vi"/>
+				<Item Name="Get Last PString__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Last PString__ogtk.vi"/>
+				<Item Name="Get Variant Attributes__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Variant Attributes__ogtk.vi"/>
+				<Item Name="Set Data Name__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Set Data Name__ogtk.vi"/>
+				<Item Name="Array of VData to VCluster__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Array of VData to VCluster__ogtk.vi"/>
+				<Item Name="Split Cluster TD__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Split Cluster TD__ogtk.vi"/>
+				<Item Name="Get Data Name from TD__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Data Name from TD__ogtk.vi"/>
+				<Item Name="Waveform Subtype Enum__ogtk.ctl" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Waveform Subtype Enum__ogtk.ctl"/>
+				<Item Name="Get Waveform Type Enum from TD__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Waveform Type Enum from TD__ogtk.vi"/>
+				<Item Name="Get Default Data from TD__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Default Data from TD__ogtk.vi"/>
+				<Item Name="Get Default Data from Variant__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Default Data from Variant__ogtk.vi"/>
+				<Item Name="Get Data Name__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Data Name__ogtk.vi"/>
+				<Item Name="Get Element TD from Array TD__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Element TD from Array TD__ogtk.vi"/>
+				<Item Name="Get Array Element TD__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get Array Element TD__ogtk.vi"/>
+				<Item Name="Reshape 1D Array__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Reshape 1D Array__ogtk.vi"/>
+				<Item Name="Get TDEnum from Data__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get TDEnum from Data__ogtk.vi"/>
+				<Item Name="Array of VData to VArray__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Array of VData to VArray__ogtk.vi"/>
+				<Item Name="Set Enum String Value__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Set Enum String Value__ogtk.vi"/>
 			</Item>
 			<Item Name="FTD2XX.dll" Type="Document" URL="FTD2XX.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>

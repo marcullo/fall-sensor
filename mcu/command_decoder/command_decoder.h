@@ -1,15 +1,16 @@
 #ifndef COMMAND_DECODER_H_
 #define COMMAND_DECODER_H_
 
-#define COMMAND_MAX_LEN 15
+#define COMMAND_MAX_LEN 40
 
 enum CommandCode {
     FS_HELLO,
     FS_GOODBYE,
     FS_RESET,
+    FS_REMOVE_PACKETS,
     FS_PACKETS_NR,
     FS_FREQUENCY,
-    FS_PACKETS,
+    FS_GET_PACKETS,
     FS_NONE
 };
 
