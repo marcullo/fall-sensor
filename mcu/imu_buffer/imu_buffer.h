@@ -1,14 +1,14 @@
 /* How to use:
  *
  * 1. Allocate array for samples
- *        struct ImuSamples samples[SAMPLES_NR];
+          struct ImuSamples samples[SAMPLES_NR];
  * 2. Allocate memory for buffer
- *        struct ImuBuffer* buf = buf_create(SAMPLES_NR, samples);
+          struct ImuBuffer* buf = buf_create(SAMPLES_NR, samples);
  * 3. To insert sample into buffer
- *        buf_replace_next(buf, new_sample);
+          buf_replace_next(buf, new_sample);
  * 4. To read the oldest sample
- *        if (!buf_is_empty(buf))
- *            buf_read_next(buf, oldest_sample);
+          if (!buf_is_empty(buf))
+              buf_read_next(buf, oldest_sample);
  * 
  * Note:
  *     This is a FIFO circular buffer (oldest sample is overwritten when you add

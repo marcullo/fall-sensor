@@ -1,0 +1,66 @@
+#include "transceiver.h"
+
+Serial pc(PA_9, PA_10);
+
+void transceiver_init(uint32_t baud_rate, uint32_t data_bits, SerialBase::Parity parity, uint32_t stop_bits)
+{
+    pc.baud(baud_rate);
+    pc.format(data_bits, SerialBase::Even, stop_bits);
+}
+
+void transceiver_receive_message(char* buf)
+{
+    if (!buf)
+        return;
+        
+    pc.scanf("%s", buf);
+}
+
+void transceiver_send_text(const char* text)
+{
+    if (!text)
+        return;
+
+    pc.printf(text);
+}
+
+void transceiver_send_packet(struct ImuBuffer* buf, uint32_t packet_nr, struct Sensor_Configuration* sensor_cfg, uint32_t samples_nr)
+{    
+    if (!buf || !sensor_cfg)
+        return;
+
+    pc.printf("FS");
+    
+    pc.printf("%04x", packet_nr);
+    
+    pc.printf("%04x%04x%04x%04x",
+            (uint16_t)sensor_cfg->accel_fs_range, 
+            (uint16_t)sensor_cfg->gyro_fs_range,
+            (uint16_t)sensor_cfg->odr,
+            (uint16_t)sensor_cfg->resolution);
+
+    pc.printf("%04x", samples_nr);
+    
+    struct ImuSample new_sample;
+    while(!buf_is_empty(buf))
+    {
+        buf_read_next(buf, &new_sample);
+        
+        pc.printf("%04x%04x%04x",
+            new_sample.ax,
+            new_sample.ay,
+            new_sample.az);
+            
+        pc.printf("%04x%04x%04x",
+            new_sample.gx,
+            new_sample.gy,
+            new_sample.gz);
+    }
+    
+    pc.printf("\r");
+}
+
+void transceiver_send_value(uint32_t value)
+{
+    pc.printf("FS%04x\r", value);
+}
