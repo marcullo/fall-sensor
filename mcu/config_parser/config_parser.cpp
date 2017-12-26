@@ -1,7 +1,7 @@
 #include "config_parser.h"
 #include <stddef.h>
 #include "json/cJSON.h"
-#include "command_decoder/string_data.h"
+#include "utils/string_utils.h"
 
 #define SENSOR_CONFIGURATION_NAME   "SensorConfiguration"
 

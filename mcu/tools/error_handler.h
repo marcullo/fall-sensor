@@ -2,12 +2,13 @@
 #define ERROR_HANDLER_H_
 
 #include "mbed.h"
+#include "pinout.h"
 
 inline void process_error()
 {
     static int led_state = 0;
-    DigitalOut errorLed(PC_0);
-    PwmOut buzzer(PA_8);
+    DigitalOut errorLed(UI_STATUS_LED_PIN);
+    PwmOut buzzer(UI_BUZZER_PIN);
     
     buzzer.period(0.3);
     buzzer.write(0.15f);

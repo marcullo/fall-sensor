@@ -1,6 +1,7 @@
 #include "transceiver.h"
+#include "pinout.h"
 
-Serial pc(PA_9, PA_10);
+Serial pc(SERIAL_TX_PIN, SERIAL_RX_PIN);
 
 void transceiver_init(uint32_t baud_rate, uint32_t data_bits, SerialBase::Parity parity, uint32_t stop_bits)
 {
@@ -16,12 +17,12 @@ void transceiver_receive_message(char* buf)
     pc.scanf("%s", buf);
 }
 
-void transceiver_send_text(const char* text)
+void transceiver_send_message(const char* msg)
 {
-    if (!text)
+    if (!msg)
         return;
 
-    pc.printf(text);
+    pc.printf("%s\r", msg);
 }
 
 void transceiver_send_packet(struct ImuBuffer* buf, uint32_t packet_nr, struct Sensor_Configuration* sensor_cfg, uint32_t samples_nr)
@@ -47,14 +48,14 @@ void transceiver_send_packet(struct ImuBuffer* buf, uint32_t packet_nr, struct S
         buf_read_next(buf, &new_sample);
         
         pc.printf("%04x%04x%04x",
-            new_sample.ax,
-            new_sample.ay,
-            new_sample.az);
+            (uint16_t)new_sample.ax,
+            (uint16_t)new_sample.ay,
+            (uint16_t)new_sample.az);
             
         pc.printf("%04x%04x%04x",
-            new_sample.gx,
-            new_sample.gy,
-            new_sample.gz);
+            (uint16_t)new_sample.gx,
+            (uint16_t)new_sample.gy,
+            (uint16_t)new_sample.gz);
     }
     
     pc.printf("\r");

@@ -1,6 +1,8 @@
 #ifndef PINOUT_H_
 #define PINOUT_H_
 
+#define SERIAL_TX_PIN           PA_9
+#define SERIAL_RX_PIN           PA_10
 #define SENSOR_INTERRUPT_PIN    PC_9
 #define MPU9255_I2C_SDA         PB_9
 #define MPU9255_I2C_SCL         PB_8

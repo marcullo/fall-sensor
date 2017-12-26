@@ -29,6 +29,23 @@
 				<Item Name="AccelFSRangeToDouble.vi" Type="VI" URL="../FallSensor/Measurement/AccelFSRangeToDouble.vi"/>
 				<Item Name="GyroFSRangeToDouble.vi" Type="VI" URL="../FallSensor/Measurement/GyroFSRangeToDouble.vi"/>
 			</Item>
+			<Item Name="ExportPacket" Type="Folder">
+				<Item Name="ExportPacketToCSV.vi" Type="VI" URL="../FallSensor/ExportPacket/ExportPacketToCSV.vi"/>
+				<Item Name="ExportPacketToJSON.vi" Type="VI" URL="../FallSensor/ExportPacket/ExportPacketToJSON.vi"/>
+				<Item Name="ExportType.ctl" Type="VI" URL="../FallSensor/ExportPacket/ExportType.ctl"/>
+			</Item>
+			<Item Name="ConfigureDevice" Type="Folder">
+				<Item Name="CDContext.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDContext.ctl"/>
+				<Item Name="CDState.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDState.ctl"/>
+				<Item Name="CDAccelFSRange.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDAccelFSRange.ctl"/>
+				<Item Name="CDGyroFSRange.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDGyroFSRange.ctl"/>
+				<Item Name="CDOutputDataRate.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDOutputDataRate.ctl"/>
+				<Item Name="CDAccelDLPF.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDAccelDLPF.ctl"/>
+				<Item Name="CDGyroDLPF.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDGyroDLPF.ctl"/>
+				<Item Name="CDInterruptPinMode.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDInterruptPinMode.ctl"/>
+				<Item Name="CDInterruptMode.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDInterruptMode.ctl"/>
+				<Item Name="CDSensorConfiguration.ctl" Type="VI" URL="../FallSensor/ConfigureDevice/CDSensorConfiguration.ctl"/>
+			</Item>
 			<Item Name="FSContext.ctl" Type="VI" URL="../FallSensor/FSContext.ctl"/>
 			<Item Name="FSState.ctl" Type="VI" URL="../FallSensor/FSState.ctl"/>
 			<Item Name="Packet.ctl" Type="VI" URL="../FallSensor/Packet.ctl"/>
@@ -37,12 +54,17 @@
 			<Item Name="DataType.ctl" Type="VI" URL="../FallSensor/DataType.ctl"/>
 			<Item Name="EventStatus.ctl" Type="VI" URL="../FallSensor/EventStatus.ctl"/>
 			<Item Name="MeasurementConfig.ctl" Type="VI" URL="../FallSensor/MeasurementConfig.ctl"/>
+			<Item Name="ConfigureDevice.vi" Type="VI" URL="../FallSensor/ConfigureDevice.vi"/>
 			<Item Name="GetPackets.vi" Type="VI" URL="../FallSensor/GetPackets.vi"/>
 			<Item Name="SavePackets.vi" Type="VI" URL="../FallSensor/SavePackets.vi"/>
 			<Item Name="LoadPackets.vi" Type="VI" URL="../FallSensor/LoadPackets.vi"/>
+			<Item Name="ExportPacket.vi" Type="VI" URL="../FallSensor/ExportPacket.vi"/>
+			<Item Name="EditComment.vi" Type="VI" URL="../FallSensor/EditComment.vi"/>
+			<Item Name="TakeGraphsScreenshot.vi" Type="VI" URL="../FallSensor/TakeGraphsScreenshot.vi"/>
 			<Item Name="EnqueueGUIUpdate.vi" Type="VI" URL="../FallSensor/EnqueueGUIUpdate.vi"/>
 			<Item Name="DequeueGUIUpdate.vi" Type="VI" URL="../FallSensor/DequeueGUIUpdate.vi"/>
 			<Item Name="EnqueueGUIMultipleUpdate.vi" Type="VI" URL="../FallSensor/EnqueueGUIMultipleUpdate.vi"/>
+			<Item Name="MenuTags.ctl" Type="VI" URL="../FallSensor/MenuTags.ctl"/>
 			<Item Name="Menu.rtm" Type="Document" URL="../FallSensor/Menu.rtm"/>
 		</Item>
 		<Item Name="Requests" Type="Folder">
@@ -87,26 +109,20 @@
 			<Item Name="FT_Close_Device.vi" Type="VI" URL="../FTDI/FT_Close_Device.vi"/>
 		</Item>
 		<Item Name="File" Type="Folder">
+			<Item Name="FileContent.ctl" Type="VI" URL="../File/FileContent.ctl"/>
 			<Item Name="FormatData.vi" Type="VI" URL="../File/FormatData.vi"/>
-			<Item Name="FormatDataContext.ctl" Type="VI" URL="../File/FormatDataContext.ctl"/>
 			<Item Name="ScanData.vi" Type="VI" URL="../File/ScanData.vi"/>
-			<Item Name="ScanDataContext.ctl" Type="VI" URL="../File/ScanDataContext.ctl"/>
-			<Item Name="FileSection.ctl" Type="VI" URL="../File/FileSection.ctl"/>
 		</Item>
 		<Item Name="JSON" Type="Folder">
 			<Item Name="JSONStreamType.ctl" Type="VI" URL="../JSON/JSONStreamType.ctl"/>
-			<Item Name="PacketsToJSON.vi" Type="VI" URL="../JSON/PacketsToJSON.vi"/>
-			<Item Name="PacketToJSON.vi" Type="VI" URL="../JSON/PacketToJSON.vi"/>
-			<Item Name="MeasurementConfigToJSON.vi" Type="VI" URL="../JSON/MeasurementConfigToJSON.vi"/>
-			<Item Name="SampleToJSON.vi" Type="VI" URL="../JSON/SampleToJSON.vi"/>
-			<Item Name="JSONToPackets.vi" Type="VI" URL="../JSON/JSONToPackets.vi"/>
-			<Item Name="JSONToPacket.vi" Type="VI" URL="../JSON/JSONToPacket.vi"/>
-			<Item Name="JSONToMeasurementConfig.vi" Type="VI" URL="../JSON/JSONToMeasurementConfig.vi"/>
-			<Item Name="JSONToSample.vi" Type="VI" URL="../JSON/JSONToSample.vi"/>
+			<Item Name="JSONToSensorConfig.vi" Type="VI" URL="../JSON/JSONToSensorConfig.vi"/>
+			<Item Name="Measurement6DoFToJSON.vi" Type="VI" URL="../JSON/Measurement6DoFToJSON.vi"/>
+			<Item Name="SensorConfigToJSON.vi" Type="VI" URL="../JSON/SensorConfigToJSON.vi"/>
 		</Item>
 		<Item Name="FallSensor.vi" Type="VI" URL="../FallSensor.vi"/>
 		<Item Name="GetAvailableFTDevices.vi" Type="VI" URL="../GetAvailableFTDevices.vi"/>
 		<Item Name="ProcessRequest.vi" Type="VI" URL="../ProcessRequest.vi"/>
+		<Item Name="fall_sensor_icon.ico" Type="Document" URL="../fall_sensor_icon.ico"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="VISA Configure Serial Port (Serial Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Serial Instr).vi"/>
@@ -169,6 +185,20 @@
 				<Item Name="TD_Get Enum Information.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/GetType.llb/TD_Get Enum Information.vi"/>
 				<Item Name="Variant JSON.lvlib" Type="Library" URL="/&lt;vilib&gt;/addons/JSON API/Variant JSON/Variant JSON.lvlib"/>
 				<Item Name="JSON GetSet.lvlib" Type="Library" URL="/&lt;vilib&gt;/addons/JSON API/Get Polymorphic/JSON GetSet.lvlib"/>
+				<Item Name="Write Delimited Spreadsheet.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write Delimited Spreadsheet.vi"/>
+				<Item Name="Write Delimited Spreadsheet (DBL).vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write Delimited Spreadsheet (DBL).vi"/>
+				<Item Name="Write Spreadsheet String.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write Spreadsheet String.vi"/>
+				<Item Name="Write Delimited Spreadsheet (I64).vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write Delimited Spreadsheet (I64).vi"/>
+				<Item Name="Write Delimited Spreadsheet (string).vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Write Delimited Spreadsheet (string).vi"/>
+				<Item Name="Check Data Size.vi" Type="VI" URL="/&lt;vilib&gt;/picture/jpeg.llb/Check Data Size.vi"/>
+				<Item Name="Check Color Table Size.vi" Type="VI" URL="/&lt;vilib&gt;/picture/jpeg.llb/Check Color Table Size.vi"/>
+				<Item Name="Directory of Top Level VI.vi" Type="VI" URL="/&lt;vilib&gt;/picture/jpeg.llb/Directory of Top Level VI.vi"/>
+				<Item Name="Check Path.vi" Type="VI" URL="/&lt;vilib&gt;/picture/jpeg.llb/Check Path.vi"/>
+				<Item Name="Check File Permissions.vi" Type="VI" URL="/&lt;vilib&gt;/picture/jpeg.llb/Check File Permissions.vi"/>
+				<Item Name="imagedata.ctl" Type="VI" URL="/&lt;vilib&gt;/picture/picture.llb/imagedata.ctl"/>
+				<Item Name="Write PNG File.vi" Type="VI" URL="/&lt;vilib&gt;/picture/png.llb/Write PNG File.vi"/>
+				<Item Name="NI_PackedLibraryUtility.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/LVLibp/NI_PackedLibraryUtility.lvlib"/>
+				<Item Name="Check if File or Folder Exists.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/libraryn.llb/Check if File or Folder Exists.vi"/>
 			</Item>
 			<Item Name="user.lib" Type="Folder">
 				<Item Name="Get PString__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Get PString__ogtk.vi"/>
@@ -202,6 +232,49 @@
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 		</Item>
-		<Item Name="Build Specifications" Type="Build"/>
+		<Item Name="Build Specifications" Type="Build">
+			<Item Name="FallSensor" Type="EXE">
+				<Property Name="App_copyErrors" Type="Bool">true</Property>
+				<Property Name="App_INI_aliasGUID" Type="Str">{FC2500DD-1396-4BFC-AD54-F58A83A3872B}</Property>
+				<Property Name="App_INI_GUID" Type="Str">{EEF77B20-600C-40C7-9686-54D2622FC3D9}</Property>
+				<Property Name="App_serverConfig.httpPort" Type="Int">8002</Property>
+				<Property Name="Bld_buildCacheID" Type="Str">{6CB45967-7D97-4B82-B531-2C2908F571B6}</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">FallSensor</Property>
+				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
+				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
+				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../builds/NI_AB_PROJECTNAME/FallSensor</Property>
+				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
+				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
+				<Property Name="Bld_previewCacheID" Type="Str">{FB715B9E-2340-402D-A8E2-60AD6A76F66B}</Property>
+				<Property Name="Bld_version.minor" Type="Int">9</Property>
+				<Property Name="Destination[0].destName" Type="Str">FallSensor.exe</Property>
+				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/FallSensor/FallSensor.exe</Property>
+				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
+				<Property Name="Destination[0].type" Type="Str">App</Property>
+				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
+				<Property Name="Destination[1].path" Type="Path">../builds/NI_AB_PROJECTNAME/FallSensor/data</Property>
+				<Property Name="DestinationCount" Type="Int">2</Property>
+				<Property Name="Exe_iconItemID" Type="Ref">/My Computer/fall_sensor_icon.ico</Property>
+				<Property Name="Source[0].itemID" Type="Str">{AC67E2AA-0962-4480-8D6C-80DC37E4AC16}</Property>
+				<Property Name="Source[0].type" Type="Str">Container</Property>
+				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[1].itemID" Type="Ref">/My Computer/FallSensor.vi</Property>
+				<Property Name="Source[1].sourceInclusion" Type="Str">TopLevel</Property>
+				<Property Name="Source[1].type" Type="Str">VI</Property>
+				<Property Name="Source[2].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[2].itemID" Type="Ref">/My Computer/FallSensor/ConfigureDevice.vi</Property>
+				<Property Name="Source[2].type" Type="Str">VI</Property>
+				<Property Name="Source[3].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[3].itemID" Type="Ref">/My Computer/FallSensor/GetPackets.vi</Property>
+				<Property Name="Source[3].type" Type="Str">VI</Property>
+				<Property Name="SourceCount" Type="Int">4</Property>
+				<Property Name="TgtF_internalName" Type="Str">FallSensor</Property>
+				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2017 Lukasz Marcul</Property>
+				<Property Name="TgtF_productName" Type="Str">FallSensor</Property>
+				<Property Name="TgtF_targetfileGUID" Type="Str">{98A68A54-73B2-4E3F-B451-4003C08281C9}</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">FallSensor.exe</Property>
+			</Item>
+		</Item>
 	</Item>
 </Project>

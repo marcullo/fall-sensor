@@ -5,6 +5,7 @@
 #include "tools/error_handler.h"
 
 #define SENSOR_WRITE_TUPLE(_bytes_tuple)  mpu9255_write_tuple((uint8_t*)_bytes_tuple);
+#define RESOLUTION 16
 
 static InterruptIn imu_int_pin(SENSOR_INTERRUPT_PIN);
 
@@ -57,14 +58,14 @@ struct Regs_Config {
 };
 
 struct Sensor_Configuration sensor_config = {
-    .accel_fs_range =   ACCEL_FS_8G,
-    .gyro_fs_range =    GYRO_FS_1000DPS,
-    .odr =              ODR_100HZ,
-    .adlpf_cfg =        ADLPF_CFG_5HZ,
-    .gdlpf_cfg =        GDLPF_CFG_5HZ,
-    .int_pin_mode =     INT_PIN_OPEN_DRAIN_FALLING_EDGE,
-    .int_mode =         INTERRUPT_MODE_DATA_RDY,
-    .resolution =       16
+    .accel_fs_range =   SENSOR_DEFAULT_ACCEL_FS_RANGE,
+    .gyro_fs_range =    SENSOR_DEFAULT_GYRO_FS_RANGE,
+    .odr =              SENSOR_DEFAULT_ODR,
+    .adlpf_cfg =        SENSOR_DEFAULT_ADLPF_CFG,
+    .gdlpf_cfg =        SENSOR_DEFAULT_GDLPF_CFG,
+    .int_pin_mode =     SENSOR_DEFAULT_INT_PIN_MODE,
+    .int_mode =         SENSOR_DEFAULT_INT_MODE,
+    .resolution =       RESOLUTION
 };
 
 volatile bool new_data_ready;
@@ -330,6 +331,8 @@ bool sensor_is_valid_configuration(struct Sensor_Configuration* config)
         return false;
     if (config->int_mode >= INTERRUPT_MODE_TOP)
         return false;
+    if (config->resolution != RESOLUTION)
+        return false;
         
     return true;
 }
@@ -343,10 +346,22 @@ void sensor_get_active_configuration(struct Sensor_Configuration* dest)
     dest->gyro_fs_range = sensor_config.gyro_fs_range;
     dest->odr = sensor_config.odr;
     dest->adlpf_cfg = sensor_config.adlpf_cfg;
-    dest->gdlpf_cfg = sensor_config.gdlpf_cfg;
+    dest->gdlpf_cfg= sensor_config.gdlpf_cfg;
     dest->int_pin_mode = sensor_config.int_pin_mode;
     dest->int_mode = sensor_config.int_mode;
     dest->resolution = sensor_config.resolution;
+}
+
+void sensor_set_default_configuration()
+{
+    sensor_config.accel_fs_range = SENSOR_DEFAULT_ACCEL_FS_RANGE;
+    sensor_config.gyro_fs_range = SENSOR_DEFAULT_GYRO_FS_RANGE;
+    sensor_config.odr = SENSOR_DEFAULT_ODR;
+    sensor_config.adlpf_cfg = SENSOR_DEFAULT_ADLPF_CFG;
+    sensor_config.gdlpf_cfg = SENSOR_DEFAULT_GDLPF_CFG;
+    sensor_config.int_pin_mode = INT_PIN_OPEN_DRAIN_FALLING_EDGE;
+    sensor_config.int_mode = INTERRUPT_MODE_DATA_RDY;
+    sensor_config.resolution = RESOLUTION;
 }
 
 void sensor_configure(struct Sensor_Configuration* config)
@@ -389,12 +404,11 @@ void sensor_acquire_sample(struct ImuBuffer* buf)
     read_imu_data(regs_read);
         
     struct ImuSample new_sample;
-    new_sample.ax = (uint16_t)(((uint16_t)regs_read[0] << 8) + regs_read[1]);
-    new_sample.ay = (uint16_t)(((uint16_t)regs_read[2] << 8) + regs_read[3]);
-    new_sample.az = (uint16_t)(((uint16_t)regs_read[4] << 8) + regs_read[5]);
-    new_sample.gx = (uint16_t)(((uint16_t)regs_read[8] << 8) + regs_read[9]);
-    new_sample.gy = (uint16_t)(((uint16_t)regs_read[10] << 8) + regs_read[11]);
-    new_sample.gz = (uint16_t)(((uint16_t)regs_read[12] << 8) + regs_read[13]);
-
+    new_sample.ax = ((int16_t)regs_read[0] << 8) + regs_read[1];
+    new_sample.ay = ((int16_t)regs_read[2] << 8) + regs_read[3];
+    new_sample.az = ((int16_t)regs_read[4] << 8) + regs_read[5];
+    new_sample.gx = ((int16_t)regs_read[8] << 8) + regs_read[9];
+    new_sample.gy = ((int16_t)regs_read[10] << 8) + regs_read[11];
+    new_sample.gz = ((int16_t)regs_read[12] << 8) + regs_read[13];
     buf_replace_next(buf, &new_sample);
 }

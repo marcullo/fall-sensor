@@ -1,4 +1,4 @@
-#include "string_data.h"
+#include "string_utils.h"
 #include <ctype.h>
 
 int strncasecmp(const char* str1, const char* str2)
