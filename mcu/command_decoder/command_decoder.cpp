@@ -1,21 +1,27 @@
 #include "command_decoder.h"
-#include "tools/global_def.h"
-#include "string_data.h"
+#include "globals.h"
+#include "utils/string_utils.h"
 #include <stdint.h>
+#include <stdio.h>
 
 struct Command {
     enum CommandCode code;
     char* value;
+    char* description;
 };
 
-struct Command Commands[] = {
-        {FS_HELLO,          "fshello"},
-        {FS_GOODBYE,        "fsbye"},
-        {FS_RESET,          "fsreset"},
-        {FS_REMOVE_PACKETS, "fspremove"},
-        {FS_PACKETS_NR,     "fspnum"},
-        {FS_FREQUENCY,      "fsfreq"},
-        {FS_GET_PACKETS,    "fspget"}
+const struct Command Commands[] = {
+        {FS_HELLO,          "fshello", "check if the device is waiting for command"},
+        {FS_GOODBYE,        "fsbye", "disconnect"},
+        {FS_RESET,          "fsreset", "reset (switch supply)"},
+        {FS_PACKETS_NR,     "fspnum", "get number of packets saved on SD card and ready for a transfer to a PC"},
+        {FS_GET_PACKETS,    "fspget", "transfer all measurement packets (and delete locally afterwards)"},
+        {FS_REMOVE_PACKETS, "fspremove", "delete all packets saved on SD card"},
+        {FS_GET_CONFIG,     "fscfgget", "get currently running configuration"},
+        {FS_SET_CONFIG,     "fscfgset", "set configuration (and save it to a file) using a JSON format"},
+        {FS_RESTORE_CONFIG, "fscfgrestore", "restore configuration file to a default form"},
+
+        {FS_HELP,           "fshelp", "call this list"},
 };
 
 /*----------------------------------------------------------------------------*/
@@ -34,4 +40,28 @@ enum CommandCode decode_message(const char* msg)
             return command_code;
     }
     return FS_NONE;
+}
+
+bool decoder_get_next_command_info(char* dest, uint32_t len)
+{
+    static int cnt = -1;
+    
+    if (!dest || len < COMMAND_INFO_MAX_LEN)
+        return false;
+    if (cnt > FS_HELP) {
+        cnt = -1;
+        return false;
+    }
+    
+    if (cnt < 0)
+    {
+        sprintf(dest, "\r\nList of available commands:"); 
+    }
+    else
+    {
+        sprintf(dest, "%s\r\n   %s", Commands[cnt].value, Commands[cnt].description); 
+    }
+        
+    cnt++;
+    return true;
 }

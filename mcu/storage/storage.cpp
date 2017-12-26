@@ -1,7 +1,7 @@
 #include "storage.h"
 #include "pinout.h"
 #include "tools/error_handler.h"
-#include "tools/global_def.h"
+#include "globals.h"
 #include "SDFileSystem.h" /* 9 Sep 2016 */
 #include "config_parser/config_parser.h"
 
@@ -116,14 +116,14 @@ void storage_save_packet(struct ImuBuffer* buf, uint32_t packet_nr, uint32_t sam
         buf_read_next(buf, &new_sample);
         
         fprintf(f, "%04x%04x%04x",
-            new_sample.ax,
-            new_sample.ay,
-            new_sample.az);
+            (uint16_t)new_sample.ax,
+            (uint16_t)new_sample.ay,
+            (uint16_t)new_sample.az);
             
         fprintf(f, "%04x%04x%04x",
-            new_sample.gx,
-            new_sample.gy,
-            new_sample.gz);
+            (uint16_t)new_sample.gx,
+            (uint16_t)new_sample.gy,
+            (uint16_t)new_sample.gz);
     }
     
     fprintf(f, "\r\n");
@@ -136,7 +136,7 @@ void storage_read_packet(struct ImuBuffer* dest, uint32_t packet_nr, struct Sens
         return;    
     
     struct ImuSample new_sample;
-    uint16_t* sample_elem = &(new_sample.ax);
+    int16_t* sample_elem = &(new_sample.ax);
         
     char fbuf[5];
     fbuf[4] = '\0';
@@ -263,7 +263,7 @@ void storage_read_packet(struct ImuBuffer* dest, uint32_t packet_nr, struct Sens
         if (read_cnt < 4)
             break;
             
-        *sample_elem = strtol(fbuf, NULL, 16);
+        *sample_elem = (int16_t)strtoul(fbuf, NULL, 16);
         sample_elem++;
         
         if (i % IMU_DEGREES_OF_FREEDOM == (IMU_DEGREES_OF_FREEDOM - 1))

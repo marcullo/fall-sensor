@@ -2,7 +2,7 @@
 #include "sensor/sensor.h"
 #include "imu_buffer/imu_buffer.h"
 #include "tools/error_handler.h"
-#include "tools/global_def.h"
+#include "globals.h"
 #include "command_decoder/command_decoder.h"
 #include "storage/storage.h"
 #include "transceiver/transceiver.h"
@@ -11,13 +11,14 @@
 #include <stdlib.h>
 
 #define IMU_SAMPLES_NR          1000
-#define COLLECTING_FREQUENCY    100
-#define HELLO_MESSAGE           "FSHELLO\r"
-#define OK_MESSAGE              "OK\r"
+#define HELLO_MESSAGE           "FSHELLO"
+#define OK_MESSAGE              "FSOK"
+#define NOT_OK_MESSAGE          "FSNOK"
 
 struct ImuSample imu_samples[IMU_SAMPLES_NR];
 char sensor_cfg_buffer[CONFIGURATION_BUF_SIZE];
 char message[COMMAND_MAX_LEN];
+char command_info[COMMAND_INFO_MAX_LEN];
 uint32_t packets_nr;
 uint32_t collected_samples_nr;
 struct Sensor_Configuration sensor_cfg;
@@ -111,38 +112,77 @@ void process_pc_commands(struct ImuBuffer* buf)
         enum CommandCode command = decode_message(message);
         switch (command)
         {
+        case FS_HELP:
+        {
+            while (decoder_get_next_command_info(command_info, sizeof(command_info)))
+            {
+                transceiver_send_message(command_info);
+            }
+        }
+            break;
+                    
         case FS_HELLO:
-            transceiver_send_text(HELLO_MESSAGE);
+            transceiver_send_message(HELLO_MESSAGE);
             break;
             
         case FS_GOODBYE:
-            transceiver_send_text(OK_MESSAGE);
+            transceiver_send_message(OK_MESSAGE);
             return;
             
         case FS_RESET:
-            transceiver_send_text(OK_MESSAGE);
+            transceiver_send_message(OK_MESSAGE);
             wait(0.1);
             NVIC_SystemReset();
             break;
             
         case FS_REMOVE_PACKETS:
-            transceiver_send_text(OK_MESSAGE);
+            transceiver_send_message(OK_MESSAGE);
             storage_remove_all_packets();
             read_number_of_packets();
             break;
             
-        case FS_PACKETS_NR:
-            transceiver_send_value(packets_nr);
+        case FS_RESTORE_CONFIG:    
+            transceiver_send_message(OK_MESSAGE);
+            sensor_set_default_configuration();
+            sensor_get_active_configuration(&sensor_cfg);
+            storage_save_configuration(&sensor_cfg, sensor_cfg_buffer);
             break;
             
-        case FS_FREQUENCY:
-            transceiver_send_value(COLLECTING_FREQUENCY);
+        case FS_PACKETS_NR:
+            transceiver_send_value(packets_nr);
             break;
         
         case FS_GET_PACKETS:
             send_packets_from_storage(buf);
             storage_remove_all_packets();
             return;
+            
+        case FS_GET_CONFIG:
+            sensor_get_active_configuration(&sensor_cfg);
+            if (cfg_parser_print(&sensor_cfg, sensor_cfg_buffer))
+            {
+                transceiver_send_message(sensor_cfg_buffer);
+            }
+            break;
+            
+        case FS_SET_CONFIG:
+            transceiver_send_message(OK_MESSAGE);
+            transceiver_receive_message(sensor_cfg_buffer);
+            
+            if (!cfg_parser_scan(sensor_cfg_buffer, &sensor_cfg)) {
+                transceiver_send_message(NOT_OK_MESSAGE);
+                break;
+            }
+            if (!sensor_is_valid_configuration(&sensor_cfg)) {
+                transceiver_send_message(NOT_OK_MESSAGE);
+                break;
+            }
+            
+            transceiver_send_message(OK_MESSAGE);
+            storage_save_configuration(&sensor_cfg, sensor_cfg_buffer);
+            sensor_configure(&sensor_cfg);
+            
+            break;
             
         default:
             break;            
@@ -158,13 +198,17 @@ int main()
     if (!imu_buffer)
         process_error();
 
-    transceiver_init(921600, 8, SerialBase::Even);
+    transceiver_init(460800, 8, SerialBase::Even);
     sensor_init();
     
     sensor_get_active_configuration(&sensor_cfg);
     if (storage_load_configuration(sensor_cfg_buffer, &sensor_cfg))
     {
         sensor_configure(&sensor_cfg);
+    }
+    else
+    {
+        storage_save_configuration(&sensor_cfg, sensor_cfg_buffer);
     }
     
     while (1)

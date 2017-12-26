@@ -17,6 +17,14 @@
 
 #include "imu_buffer.h"
 
+#define SENSOR_DEFAULT_ACCEL_FS_RANGE   ACCEL_FS_8G
+#define SENSOR_DEFAULT_GYRO_FS_RANGE    GYRO_FS_1000DPS
+#define SENSOR_DEFAULT_ODR              ODR_100HZ
+#define SENSOR_DEFAULT_ADLPF_CFG        ADLPF_CFG_5HZ
+#define SENSOR_DEFAULT_GDLPF_CFG        GDLPF_CFG_5HZ
+#define SENSOR_DEFAULT_INT_PIN_MODE     INT_PIN_OPEN_DRAIN_FALLING_EDGE
+#define SENSOR_DEFAULT_INT_MODE         INTERRUPT_MODE_DATA_RDY
+
 enum Sensor_Accel_Full_Scale_Range {
     ACCEL_FS_2G,
     ACCEL_FS_4G,
@@ -94,6 +102,7 @@ struct regs_config;
 void sensor_init();
 bool sensor_is_valid_configuration(struct Sensor_Configuration* config);
 void sensor_get_active_configuration(struct Sensor_Configuration* dest);
+void sensor_set_default_configuration();
 void sensor_configure(struct Sensor_Configuration* config);
 void sensor_enable_data_ready_interrupt();
 void sensor_disable_data_ready_interrupt();
