@@ -5,7 +5,7 @@ Fall detection system based on incremental development model.
 Author: Lukasz Marcul.
 
 ## Latest Release
-[Distributed measurement system composed of IMU device and desktop application](https://github.com/Marcullo/fall-sensor/releases/tag/v0.8)
+[Fall Sensor - Data Acquisition Mode](https://github.com/Marcullo/fall-sensor/releases/tag/v0.9)
 
 ## Purpose
 
