@@ -54,6 +54,7 @@
 			<Item Name="DataType.ctl" Type="VI" URL="../FallSensor/DataType.ctl"/>
 			<Item Name="EventStatus.ctl" Type="VI" URL="../FallSensor/EventStatus.ctl"/>
 			<Item Name="MeasurementConfig.ctl" Type="VI" URL="../FallSensor/MeasurementConfig.ctl"/>
+			<Item Name="AlignStringWithSpaces.vi" Type="VI" URL="../FallSensor/AlignStringWithSpaces.vi"/>
 			<Item Name="ConfigureDevice.vi" Type="VI" URL="../FallSensor/ConfigureDevice.vi"/>
 			<Item Name="GetPackets.vi" Type="VI" URL="../FallSensor/GetPackets.vi"/>
 			<Item Name="SavePackets.vi" Type="VI" URL="../FallSensor/SavePackets.vi"/>
@@ -256,7 +257,7 @@
 				<Property Name="Destination[1].path" Type="Path">../builds/NI_AB_PROJECTNAME/FallSensor/data</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="Exe_iconItemID" Type="Ref">/My Computer/fall_sensor_icon.ico</Property>
-				<Property Name="Source[0].itemID" Type="Str">{AC67E2AA-0962-4480-8D6C-80DC37E4AC16}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{DEB3932D-59E0-423E-B7A5-727E621449F2}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/FallSensor.vi</Property>
