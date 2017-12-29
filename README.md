@@ -5,7 +5,7 @@ Fall detection system based on incremental development model.
 Author: Lukasz Marcul.
 
 ## Latest Release
-[Fall Sensor - Data Acquisition Mode](https://github.com/Marcullo/fall-sensor/releases/tag/v0.9)
+[Fall Sensor - Data Acquisition Mode](https://github.com/Marcullo/fall-sensor/releases/tag/v0.10)
 
 ## Purpose
 
