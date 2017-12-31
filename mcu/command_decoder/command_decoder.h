@@ -8,6 +8,7 @@
 
 /* it is important to keep order of the enum as is */
 enum CommandCode {
+    FS_HELP,
     FS_HELLO,
     FS_GOODBYE,
     FS_RESET,
@@ -17,7 +18,6 @@ enum CommandCode {
     FS_GET_CONFIG,
     FS_SET_CONFIG,
     FS_RESTORE_CONFIG,
-    FS_HELP,
     FS_NONE
 };
 

@@ -11,6 +11,7 @@ struct Command {
 };
 
 const struct Command Commands[] = {
+        {FS_HELP,           "fshelp", "call this list"},
         {FS_HELLO,          "fshello", "check if the device is waiting for command"},
         {FS_GOODBYE,        "fsbye", "disconnect"},
         {FS_RESET,          "fsreset", "reset (switch supply)"},
@@ -20,8 +21,6 @@ const struct Command Commands[] = {
         {FS_GET_CONFIG,     "fscfgget", "get currently running configuration"},
         {FS_SET_CONFIG,     "fscfgset", "set configuration (and save it to a file) using a JSON format"},
         {FS_RESTORE_CONFIG, "fscfgrestore", "restore configuration file to a default form"},
-
-        {FS_HELP,           "fshelp", "call this list"},
 };
 
 /*----------------------------------------------------------------------------*/

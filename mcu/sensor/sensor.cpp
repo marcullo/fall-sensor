@@ -5,7 +5,6 @@
 #include "tools/error_handler.h"
 
 #define SENSOR_WRITE_TUPLE(_bytes_tuple)  mpu9255_write_tuple((uint8_t*)_bytes_tuple);
-#define RESOLUTION 16
 
 static InterruptIn imu_int_pin(SENSOR_INTERRUPT_PIN);
 
@@ -65,7 +64,7 @@ struct Sensor_Configuration sensor_config = {
     .gdlpf_cfg =        SENSOR_DEFAULT_GDLPF_CFG,
     .int_pin_mode =     SENSOR_DEFAULT_INT_PIN_MODE,
     .int_mode =         SENSOR_DEFAULT_INT_MODE,
-    .resolution =       RESOLUTION
+    .resolution =       SENSOR_RESOLUTION
 };
 
 volatile bool new_data_ready;
@@ -331,7 +330,7 @@ bool sensor_is_valid_configuration(struct Sensor_Configuration* config)
         return false;
     if (config->int_mode >= INTERRUPT_MODE_TOP)
         return false;
-    if (config->resolution != RESOLUTION)
+    if (config->resolution != SENSOR_RESOLUTION)
         return false;
         
     return true;
@@ -361,7 +360,7 @@ void sensor_set_default_configuration()
     sensor_config.gdlpf_cfg = SENSOR_DEFAULT_GDLPF_CFG;
     sensor_config.int_pin_mode = INT_PIN_OPEN_DRAIN_FALLING_EDGE;
     sensor_config.int_mode = INTERRUPT_MODE_DATA_RDY;
-    sensor_config.resolution = RESOLUTION;
+    sensor_config.resolution = SENSOR_RESOLUTION;
 }
 
 void sensor_configure(struct Sensor_Configuration* config)
@@ -393,7 +392,7 @@ bool sensor_is_new_data_ready()
     return new_data_ready;
 }
 
-void sensor_acquire_sample(struct ImuBuffer* buf)
+void sensor_acquire_sample_to_buf(struct ImuBuffer* buf)
 {
     if (!buf)
         process_error();
@@ -411,4 +410,22 @@ void sensor_acquire_sample(struct ImuBuffer* buf)
     new_sample.gy = ((int16_t)regs_read[10] << 8) + regs_read[11];
     new_sample.gz = ((int16_t)regs_read[12] << 8) + regs_read[13];
     buf_replace_next(buf, &new_sample);
+}
+
+void sensor_acquire_sample(struct ImuSample* sample)
+{
+    if (!sample)
+        process_error();
+        
+    new_data_ready = false;
+    
+    uint8_t regs_read[14];
+    read_imu_data(regs_read);
+        
+    sample->ax = ((int16_t)regs_read[0] << 8) + regs_read[1];
+    sample->ay = ((int16_t)regs_read[2] << 8) + regs_read[3];
+    sample->az = ((int16_t)regs_read[4] << 8) + regs_read[5];
+    sample->gx = ((int16_t)regs_read[8] << 8) + regs_read[9];
+    sample->gy = ((int16_t)regs_read[10] << 8) + regs_read[11];
+    sample->gz = ((int16_t)regs_read[12] << 8) + regs_read[13];
 }

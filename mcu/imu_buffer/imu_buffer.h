@@ -5,7 +5,8 @@
  * 2. Allocate memory for buffer
           struct ImuBuffer* buf = buf_create(SAMPLES_NR, samples);
  * 3. To insert sample into buffer
-          buf_replace_next(buf, new_sample);
+          if (!buf_is_full(buf))
+              buf_replace_next(buf, new_sample);
  * 4. To read the oldest sample
           if (!buf_is_empty(buf))
               buf_read_next(buf, oldest_sample);
