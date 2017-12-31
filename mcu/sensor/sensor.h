@@ -9,14 +9,20 @@
            .int_pin_mode       = INT_PIN_OPEN_DRAIN_FALLING_EDGE,
            .int_mode           = INTERRUPT_MODE_DATA_RDY,
        };
- * 2. Call sensor_configure function:
-       sensor_configure(&sensor_cfg);
+ * 2. Configure sensor:
+       if (sensor_is_valid_configuration(&sensor_cfg))
+           sensor_configure(&sensor_cfg);
+ * 3. Acquire sample
+       struct ImuSample imu_sample;
+       if (sensor_is_new_data_ready())
+           sensor_acquire_sample(&imu_sample);
  */
 #ifndef SENSOR_H_
 #define SENSOR_H_
 
 #include "imu_buffer.h"
 
+#define SENSOR_RESOLUTION               16
 #define SENSOR_DEFAULT_ACCEL_FS_RANGE   ACCEL_FS_8G
 #define SENSOR_DEFAULT_GYRO_FS_RANGE    GYRO_FS_1000DPS
 #define SENSOR_DEFAULT_ODR              ODR_100HZ
@@ -107,6 +113,7 @@ void sensor_configure(struct Sensor_Configuration* config);
 void sensor_enable_data_ready_interrupt();
 void sensor_disable_data_ready_interrupt();
 bool sensor_is_new_data_ready();
-void sensor_acquire_sample(struct ImuBuffer* buf);
+void sensor_acquire_sample_to_buf(struct ImuBuffer* buf);
+void sensor_acquire_sample(struct ImuSample* sample);
 
 #endif /* SENSOR_H_ */
