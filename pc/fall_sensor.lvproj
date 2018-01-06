@@ -124,6 +124,7 @@
 		<Item Name="GetAvailableFTDevices.vi" Type="VI" URL="../GetAvailableFTDevices.vi"/>
 		<Item Name="ProcessRequest.vi" Type="VI" URL="../ProcessRequest.vi"/>
 		<Item Name="fall_sensor_icon.ico" Type="Document" URL="../fall_sensor_icon.ico"/>
+		<Item Name="test_menu.rtm" Type="Document" URL="../../menu editor/test_menu.rtm"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="VISA Configure Serial Port (Serial Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Serial Instr).vi"/>
